@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  threatintel-daily:
+    build: .
+    container_name: threatintel-daily
+    restart: unless-stopped
+    
+    # Volume mounts
+    volumes:
+      - ./config.yml:/app/config.yml:ro
+      - ./data:/app/data
+      - ./logs:/app/logs
+    
+    # Network
+    networks:
+      - threatintel
+    
+    # Environment
+    environment:
+      PYTHONUNBUFFERED: 1
+      LOG_LEVEL: INFO
+    
+    # Resource limits (optional)
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+  # Optional: PostgreSQL for distributed deployments
+  # threatintel-db:
+  #   image: postgres:15-alpine
+  #   container_name: threatintel-db
+  #   restart: unless-stopped
+  #   environment:
+  #     POSTGRES_DB: threatintel
+  #     POSTGRES_USER: threatintel
+  #     POSTGRES_PASSWORD: ${DB_PASSWORD}
+  #   volumes:
+  #     - threatintel-db-data:/var/lib/postgresql/data
+  #   networks:
+  #     - threatintel
+
+networks:
+  threatintel:
+    driver: bridge
+
+volumes:
+  # threatintel-db-data:

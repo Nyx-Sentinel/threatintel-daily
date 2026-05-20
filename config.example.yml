@@ -1,0 +1,240 @@
+# ThreatIntel Daily Configuration
+# Copy to config.yml and fill in your settings
+
+app:
+  debug: false
+  log_level: "INFO"
+  database_path: "./data/threatintel.db"
+  data_dir: "./data"
+
+# What threats to monitor
+monitored:
+  emails:
+    - your-email@example.com
+    - work-email@company.com
+  
+  domains:
+    - example.com
+    - company.com
+  
+  subdomains:  # Monitor all *.example.com and *.company.com
+    - example.com
+    - company.com
+  
+  # Software/services you run
+  services:
+    - software: "python"
+      versions:
+        - "3.11.x"
+    - software: "nginx"
+      versions:
+        - "1.24.x"
+    - software: "postgresql"
+      versions:
+        - "15.x"
+
+# Threat intelligence feeds
+feeds:
+  # National Vulnerability Database (CVEs)
+  nvd:
+    enabled: true
+    api_key: ""  # Get free at https://nvd.nist.gov/developers/request-an-api-key
+    min_severity: "HIGH"  # LOW, MEDIUM, HIGH, CRITICAL
+    check_interval: 3600  # Check every hour
+  
+  # Open-source vulnerability database
+  osv:
+    enabled: true
+    check_interval: 3600
+  
+  # HaveIBeenPwned - breach/credential monitoring
+  haveibeenpwned:
+    enabled: true
+    api_key: ""  # Get at https://haveibeenpwned.com/API/v3 (requires subscription)
+    check_interval: 86400  # Check daily
+  
+  # AbuseIPDB - malicious IP reputation
+  abuseipdb:
+    enabled: true
+    api_key: ""  # Free tier at https://www.abuseipdb.com/api
+    min_confidence: 75  # 0-100 confidence threshold
+    check_interval: 3600
+  
+  # URLhaus - malware URL tracking
+  urlhaus:
+    enabled: true
+    check_interval: 3600
+  
+  # Shodan - Internet-wide device scanning (optional, paid)
+  shodan:
+    enabled: false
+    api_key: ""
+    search_terms:
+      - "your-domain.com"
+      - "your-ip-range"
+    check_interval: 86400
+  
+  # Custom STIX/TAXII feeds
+  custom_feeds:
+    enabled: false
+    feeds:
+      - name: "Internal Threat Feed"
+        url: "https://your-org.com/threat-feed.json"
+        format: "stix2"  # or "json", "csv"
+        username: ""
+        password: ""
+        frequency: "daily"
+
+# Alert delivery methods
+alerts:
+  # Email alerts
+  email:
+    enabled: true
+    sender_name: "ThreatIntel Daily"
+    from: "threatintel-daily@example.com"
+    to:
+      - your-email@example.com
+    
+    smtp:
+      server: "smtp.gmail.com"
+      port: 587
+      use_tls: true
+      username: "your-email@gmail.com"
+      password: "YOUR_APP_PASSWORD"  # NOT your actual password; use app-specific password
+    
+    # Digest mode: 'immediate', 'hourly', 'daily', 'weekly'
+    digest_mode: "daily"
+    digest_time: "09:00"  # HH:MM, applies to daily/weekly
+    
+    # Only alert on these severity levels
+    min_severity: "MEDIUM"  # LOW, MEDIUM, HIGH, CRITICAL
+  
+  # Webhooks (Slack, Teams, Discord, custom)
+  webhook:
+    enabled: true
+    
+    # Slack integration
+    slack:
+      enabled: true
+      webhook_url: ""  # https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK
+      channel: "#security-alerts"
+      mention_on_critical: true  # @channel for critical alerts
+    
+    # Microsoft Teams
+    teams:
+      enabled: false
+      webhook_url: ""
+    
+    # Discord
+    discord:
+      enabled: false
+      webhook_url: ""
+    
+    # Custom webhook
+    custom:
+      enabled: false
+      url: ""
+      method: "POST"
+      headers: {}
+      # Example: {"Authorization": "Bearer YOUR_TOKEN"}
+
+# Web dashboard
+dashboard:
+  enabled: true
+  host: "0.0.0.0"
+  port: 8080
+  
+  # Basic auth
+  authentication:
+    enabled: true
+    username: "admin"
+    password: "CHANGE_ME_STRONG_PASSWORD"
+  
+  # HTTPS (optional)
+  https:
+    enabled: false
+    cert_path: "/path/to/cert.pem"
+    key_path: "/path/to/key.pem"
+
+# Lab integrations
+lab_integration:
+  # Wazuh Security Platform
+  wazuh:
+    enabled: false
+    api_url: "https://wazuh-manager.local:55000"
+    api_user: "wazuh_user"
+    api_pass: "wazuh_password"
+    verify_ssl: false  # Only for self-signed certs in labs
+    sync_interval: 1800  # Check every 30 minutes
+    
+    # Alert rules to monitor
+    rule_ids:
+      - "5714"  # SSH brute force
+      - "5715"  # SSH authentication success
+    
+    # Threat intelligence correlation
+    correlate_with_feeds: true
+  
+  # Fortinet FortiGate Firewall
+  fortigate:
+    enabled: false
+    device_ip: "192.168.1.1"
+    api_token: "YOUR_FORTIGATE_API_TOKEN"
+    verify_ssl: false
+    
+    # Log types to monitor
+    log_types:
+      - "ips"      # IPS events
+      - "traffic"  # Traffic logs
+      - "utm"      # URL filtering
+      - "dlp"      # DLP events
+    
+    sync_interval: 1800
+  
+  # T-Pot Honeypot
+  tpot:
+    enabled: false
+    api_url: "http://tpot.local:64297"
+    api_key: ""
+    
+    # Honeypot sensors to monitor
+    sensors:
+      - "cowrie"      # SSH honeypot
+      - "suricata"    # IDS
+      - "snare"       # Web honeypot
+    
+    sync_interval: 900  # Every 15 minutes
+
+# Logging
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "./logs/threatintel-daily.log"
+  max_size: 10485760  # 10 MB
+  backup_count: 5
+
+# Storage
+storage:
+  db_type: "sqlite"  # or "postgresql"
+  sqlite:
+    path: "./data/threatintel.db"
+  
+  # Optional: PostgreSQL for distributed deployments
+  postgresql:
+    host: "localhost"
+    port: 5432
+    database: "threatintel"
+    user: "threatintel"
+    password: "secure_password"
+
+# Retention policies
+retention:
+  threats_days: 90        # Keep threat records for 90 days
+  alerts_days: 30         # Keep alert history for 30 days
+  cleanup_interval: 86400 # Cleanup job runs daily
+
+# Performance tuning
+performance:
+  thread_pool_size: 4
+  request_timeout: 30  # seconds
+  max_concurrent_feeds: 5
