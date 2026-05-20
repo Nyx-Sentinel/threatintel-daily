@@ -7,7 +7,7 @@ setup(
     name="threatintel-daily",
     version="0.1.0",
     author="Alphonse",
-    author_email="your-email@example.com",
+    author_email="nyxsentinel.se@gmail.com",
     description="Personal threat intelligence aggregator for security-conscious individuals",
     long_description=long_description,
     long_description_content_type="text/markdown",
