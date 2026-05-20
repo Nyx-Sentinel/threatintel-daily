@@ -353,7 +353,7 @@ MIT License — See LICENSE file for details.
 
 - **Issues:** GitHub Issues tab
 - **Discussions:** GitHub Discussions
-- **Security:** Please report vulns privately to [your-email@example.com](mailto:your-email@example.com)
+- **Security:** Please report vulns privately to [your-email@example.com](nyxsentinel.se@gmail.com)
 
 ---
 
