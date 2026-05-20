@@ -5,7 +5,7 @@
 If you discover a security vulnerability in ThreatIntel Daily, please **do not** open a public GitHub issue.
 
 Instead, please report it responsibly by emailing us at:
-**security@threatintel-daily.local** (replace with your actual security email)
+**nyxsentinel.se@gmail.com** (replace with your actual security email)
 
 Include:
 - Description of the vulnerability
