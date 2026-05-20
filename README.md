@@ -353,8 +353,7 @@ MIT License — See LICENSE file for details.
 
 - **Issues:** GitHub Issues tab
 - **Discussions:** GitHub Discussions
-- **Security:** Please report vulns privately to [your-email@example.com](nyxsentinel.se@gmail.com)
 
 ---
 
-**Built by cybersecurity enthusiasts, for cybersecurity enthusiasts.** 🔒
+**Built by cybersecurity enthusiast, for cybersecurity enthusiasts.** 🔒
