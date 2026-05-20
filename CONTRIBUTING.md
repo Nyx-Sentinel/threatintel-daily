@@ -134,7 +134,7 @@ When reviewing PRs, we look for:
 
 ## Reporting Issues
 
-Found a security vulnerability? **Please don't open a public issue.** Instead, email [your-email@example.com] with:
+Found a security vulnerability? **Please don't open a public issue.** Instead, email [nyxsentinel.se@gmail.com] with:
 - Description of the vulnerability
 - Steps to reproduce
 - Potential impact
