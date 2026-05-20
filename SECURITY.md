@@ -88,8 +88,6 @@ We will publish security advisories for:
 - Arbitrary code execution
 - Data exfiltration
 
-Visit the [Security Advisories](https://github.com/YOUR_USERNAME/threatintel-daily/security/advisories) page for disclosed vulnerabilities.
-
 ## Support
 
 For security-related questions (not vulnerability reports), please open a discussion or issue.
